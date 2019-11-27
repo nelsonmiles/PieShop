@@ -1,0 +1,258 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Shop.Auth
+@using Microsoft.AspNetCore.Authorization
+
+
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IAuthorizationService AuthorizationService
+@inject UserManager<ApplicationUser> UserManager
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/bootstrap-3.4.1-dist/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/bootstrap-3.4.1-dist/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/content/style.css" />
+
+    @*<link href="~/content/Style.css" rel="stylesheet" type="text/css" media="all"/>*@
+    <link href="~/content/flexslider.css" rel="stylesheet" type="text/css" media="screen" />
+
+    <script asp-src-include="lib/jquery/dist/jquery.js"></script>
+    <script asp-src-include="lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script asp-src-include="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+   
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+</head>
+<body>
+    @*@Html.Raw(JavaScriptSnippet.FullScript)*@
+
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+
+                    <cache expires-sliding="@TimeSpan.FromSeconds(10)">
+                        @await Component.InvokeAsync("CategoryMenu")
+                    </cache>
+                    <li condition="SignInManager.IsSignedIn(User)"><a asp-controller="PieGift" asp-action="Index">Send a pie</a></li>
+                    <li><a asp-controller="Contact" asp-action="Index">Contact us</a></li>
+                    @*<li><a asp-controller="Home" asp-action="Index" asp-area="Promo">Promotions</a></li>*@
+                    @await Component.InvokeAsync("ShoppingCartSummary")
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrators"))
+                        {
+                        @await Component.InvokeAsync("AdminMenu")
+
+                        <li class="dropdown">
+                            <a asp-controller="PieManagement"
+                               asp-action="Index">Pie Management</a>
+                        </li>
+                        }
+                    @*<li>
+                            <a asp-controller="Pie" asp-action="Details" asp-route-id="30"
+                               asp-protocol="http" asp-host="www.bethanyspieshop.com" asp-fragment="details">
+                                Pie of the week
+                            </a>
+                        </li>*@
+                </ul>
+                @await Html.PartialAsync("LoginPartial")
+            </div>
+        </div>
+    </nav>
+
+
+    <div style="margin-top:50px">
+        <div class="row">
+            @*<div class="col-md-3">
+                    <p class="lead">
+                        <img class="img-responsive" alt="Sunrise's Pie Shop'" src="~/Images/gold.png" />
+                    </p>
+                </div>*@
+
+        <div class="col-md-12">
+            @RenderBody()
+
+
+        </div>
+
+            
+        </div>
+    </div>
+
+   
+        @RenderSection("scripts", required: false)
+
+    
+
+       
+
+     
+
+
+        <div class="testimonials" id="testimonials" style="background-color:aliceblue">
+            <div class="container" >
+                <h3 class="w3layouts-heading">
+                        Happy
+                        <span>Customers</span>
+                    </h3>
+                <div class="col-md-12 col-xs-12" data-wow-delay="0.2s">
+                    <div class="carousel slide" data-ride="carousel" id="quote-carousel">
+                        <!-- Bottom Carousel Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#quote-carousel" data-slide-to="0" class="active">
+                                <img class="img-responsive " src="~/images/m1.jpg" alt="">
+                            </li>
+                            <li data-target="#quote-carousel" data-slide-to="1">
+                                <img class="img-responsive" src="~/images/m2.jpg" alt="">
+                            </li>
+                            <li data-target="#quote-carousel" data-slide-to="2">
+                                <img class="img-responsive" src="images/m3.jpg" alt="">
+                            </li>
+                        </ol>
+
+                        <!-- Carousel Slides / Quotes -->
+                        <div class="carousel-inner text-center" >
+                            <!-- Quote 1 -->
+                            <div class="item active">
+                                <blockquote>
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2 client-agileits-w3layouts-w3layouts" >
+
+                                            <p class="paragraph-w3l" >
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                                                aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. !
+                                            </p>
+                                            <h5>Miles Lexy</h5>
+                                        </div>
+                                    </div>
+                                </blockquote>
+                            </div>
+                            <!-- Quote 2 -->
+                            <div class="item">
+                                <blockquote>
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2 client-agileits-w3layouts-w3layouts">
+
+                                            <p class="paragraph-w3l">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                                                aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                            </p>
+                                            <h5>Flozzy Pozzy</h5>
+                                        </div>
+                                    </div>
+                                </blockquote>
+                            </div>
+                            <!-- Quote 3 -->
+                            <div class="item">
+                                <blockquote>
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2 client-agileits-w3layouts-w3layouts">
+
+                                            <p class="paragraph-w3l">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                                                aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                            </p>
+                                            <h5>Liqour Tukore</h5>
+                                        </div>
+                                    </div>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <!-- Carousel Buttons Next/Prev -->
+                        <a data-slide="prev" href="#quote-carousel" class="left carousel-control">
+                            <i class="fa fa-chevron-left"></i>
+                        </a>
+                        <a data-slide="next" href="#quote-carousel" class="right carousel-control">
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="copy">
+            <p>
+                © 2019 PieShop . All Rights Reserved | Design by
+                <a href="http://w3layouts.com/">Miles</a>
+            </p>
+        </div>
+
+        <script type="text/javascript" src="~/bootstrap-3.4.1-dist/js/jquery-2.1.4.min.js"></script>
+        <script src="~/bootstrap-3.4.1-dist/js/main.js"></script>
+        <script defer src="~/bootstrap-3.4.1-dist/js/jquery.flexslider.js"></script>
+
+        <!-- start-smoth-scrolling -->
+        <script type="text/javascript" src="~/bootstrap-3.4.1-dist/js/easing.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                /*
+                    var defaults = {
+                    containerID: 'toTop', // fading element id
+                    containerHoverID: 'toTopHover', // fading element hover id
+                    scrollSpeed: 1200,
+                    easingType: 'linear'
+                    };
+                */
+                $().UItoTop({
+                    easingType: 'easeOutQuart'
+                });
+            });
+        </script>
+
+        <script src="~/bootstrap-3.4.1-dist/js/bootstrap.js"></script>
+        <script src="~/bootstrap-3.4.1-dist/js/jzBox.js"></script>
+
+        <script type="text/javascript">
+            $(window).load(function () {
+                $("#flexiselDemo1").flexisel({
+                    visibleItems: 3,
+                    animationSpeed: 1000,
+                    autoPlay: false,
+                    autoPlaySpeed: 3000,
+                    pauseOnHover: true,
+                    enableResponsiveBreakpoints: true,
+                    responsiveBreakpoints: {
+                        portrait: {
+                            changePoint: 480,
+                            visibleItems: 1
+                        },
+                        landscape: {
+                            changePoint: 640,
+                            visibleItems: 2
+                        },
+                        tablet: {
+                            changePoint: 768,
+                            visibleItems: 2
+                        }
+                    }
+                });
+
+            });
+        </script>
+
+</body>
+</html>

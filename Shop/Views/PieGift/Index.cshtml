@@ -1,0 +1,33 @@
+﻿@model PieGiftOrder
+
+<h2 style="color: #D81B60; font-family: 'Droid serif', serif; font-size: 17px; font-weight: 400; font-style: ; line-height: 44px; margin: 0 0 12px; text-align: center;">Surprise someone you love with a Pie. Simply add the name and address below and we'll send him/her a Pie of the Week! </h2>
+@*<h3>Billing is made automatically to your credit card.</h3>*@
+
+<form asp-controller="PieGift" asp-action="Index" method="post" class="form-horizontal" role="form">
+    <h4>Enter the details below</h4>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Name" class="col-md-2 control-label"></label>
+        <div class="col-md-8">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Address" class="col-md-2 control-label"></label>
+        <div class="col-md-8">
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Send gift now" />
+        </div>
+    </div>
+
+</form>

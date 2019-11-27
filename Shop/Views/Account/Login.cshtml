@@ -1,0 +1,41 @@
+﻿
+@model LoginViewModel   
+
+<h2 style="color: #D81B60; font-family: 'Droid serif', serif; font-size: 36px; font-weight: 400; font-style: italic; line-height: 44px; margin: 0 0 12px; text-align: center;">Before contacting us,Please login or 
+    <a asp-action="Register" asp-controller="Account">register </a>
+</h2>
+<form asp-action="Login" asp-controller="Account" method="post" class="form-horizontal" role="form" style="margin-top:10%;margin-left:20%;">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+
+        <label asp-for="UserName" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+    </div>
+    <div class="form-group">
+
+        <label asp-for="Password" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+
+        <div class=" col-md-offset-2 col-md-5">
+            <input type="submit" class="btn btn-primary" value="Log in" />
+        </div>
+
+    </div>
+
+
+</form>
+
